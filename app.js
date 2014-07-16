@@ -14,6 +14,15 @@ server.onDataRecieved = function(raw_data, socket){
 
         onComplete: function(data){
             console.log(data);
+
+            var Point = mongoose.model('Point', { data: Object });
+
+            var kitty = new Point({data: data});
+
+            kitty.save(function (err) {
+                if (err) // ...
+                    console.log('meow');
+            });
         }
     });
 
