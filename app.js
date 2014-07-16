@@ -1,10 +1,21 @@
-var mongoose = require('./mongoose.js'),
-    server = require('./server.js');
+process.env.TZ = 'Europe/Moscow';
 
-server.onDataRecieved = function(data){
-    console.log(data);
+var mongoose = require('./libs/mongoose.js'),
+    server = require('./libs/server.js'),
+    gallileo = require('./plugins/gallileo.js');
 
-    setTimeout(function(){
-       server.dropConnection('sss\n');
-    }, 1000);
+server.onDataRecieved = function(raw_data, socket){
+    var data = raw_data.toString('hex');
+
+    var protocol = new gallileo(data, {
+        onEchoNeeded: function(data, encoding){
+            socket.write(data, encoding);
+        },
+
+        onComplete: function(data){
+            console.log(data);
+        }
+    });
+
+    protocol.process();
 };

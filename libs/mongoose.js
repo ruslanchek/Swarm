@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
  * @returns {*|exports}
  * @constructor
  */
-var MongooseConnect = function() {
+var MongooseConnect = function () {
     var _this = this,
         options = {
             user: 'admin',
@@ -22,7 +22,7 @@ var MongooseConnect = function() {
             }
         };
 
-    this.connect = function () {
+    var connect = function () {
         mongoose.connect(
             'mongodb://' +
             options.user + ':' +
@@ -34,14 +34,14 @@ var MongooseConnect = function() {
         )
     };
 
-    this.connect();
+    connect();
 
     mongoose.connection.on('error', function (err) {
         console.log('Mongoose connection error', err);
     });
 
     mongoose.connection.on('disconnected', function () {
-        _this.connect();
+        connect();
     });
 
     return mongoose;

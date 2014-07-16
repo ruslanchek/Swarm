@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "mongoose": "^3.8.13",
-    "underscore": "^1.6.0"
+    "lodash": "^2.4.1",
+    "mongoose": "^3.8.13"
   },
   "devDependencies": {},
   "scripts": {
