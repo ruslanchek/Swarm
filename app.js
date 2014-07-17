@@ -2,29 +2,42 @@ process.env.TZ = 'Europe/Moscow';
 
 var mongoose = require('./libs/mongoose.js'),
     server = require('./libs/server.js'),
-    gallileo = require('./plugins/gallileo.js');
+    protocol = require('./libs/protocol.js');
 
-server.onDataRecieved = function(raw_data, socket){
-    var data = raw_data.toString('hex');
-
-    var protocol = new gallileo(data, {
-        onEchoNeeded: function(data, encoding){
-            socket.write(data, encoding);
+server.onDataRecieved = function(data, bytes, socket){
+    var proto = new protocol(data, bytes, {
+        onProtocolUndefined: function(){
+            socket.destroy();
         },
 
-        onComplete: function(data){
-            console.log(data);
-
-            var Point = mongoose.model('Point', { data: Object });
-
-            var kitty = new Point({data: data});
-
-            kitty.save(function (err) {
-                if (err) // ...
-                    console.log('meow');
-            });
+        onClientSayByeBye: function(){
+            socket.write('Bye-bye!\n');
+            socket.destroy();
         }
     });
 
-    protocol.process();
+    if(proto.name == 'galileo'){
+        var plugin = require('./plugins/galileo.js');
+
+        var galileo = new plugin(data, {
+            onEchoNeeded: function(data, encoding){
+                socket.write(data, encoding);
+            },
+
+            onComplete: function(data){
+                console.log(data);
+
+                var Point = mongoose.model('Point', { data: Object });
+
+                var kitty = new Point({data: data});
+
+                kitty.save(function (err) {
+                    if (err) // ...
+                        console.log('meow');
+                });
+            }
+        });
+
+        galileo.process();
+    }
 };

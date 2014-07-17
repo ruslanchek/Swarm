@@ -2,20 +2,21 @@ var _ = require('lodash'),
     utils = require('../libs/utils.js'),
     checksum = require('../libs/checksum.js');
 
-var PluginGallileo = function (socket_data, opts) {
+var Plugin = function (socket_data, options) {
     var params = {},
-        tags_params = {},
-        options = {
-            onComplete: function(data){
+        tags_params = {};
 
-            },
+    this.options = {
+        onComplete: function(data){
 
-            onEchoNeeded: function(data, encoding){
+        },
 
-            }
-        };
+        onEchoNeeded: function(data, encoding){
 
-    _.extend(options, opts);
+        }
+    };
+
+    _.extend(this.options, options);
 
     tags_params['01'] = {length: 1,     name: 'hw_ver',         method: 'hex2dec'};                     //Версия железа
     tags_params['02'] = {length: 1,     name: 'sw_ver',         method: 'hex2a'};                       //Версия прошивки
@@ -76,7 +77,7 @@ var PluginGallileo = function (socket_data, opts) {
 
         var out = new Buffer(a, 'ascii');
 
-        options.onEchoNeeded(out, 'ascii');
+        this.options.onEchoNeeded(out, 'ascii');
 
         parseTags();
     };
@@ -215,7 +216,7 @@ var PluginGallileo = function (socket_data, opts) {
     var prepareData = function(data){
         if (data.gps_data) {
             if ( data.gps_data.sat_status == 0 || ( parseInt(data.gps_data.lat) == 0 && parseInt(data.gps_data.lon) == 0 ) || data.hdop <= 0 ) {
-                console.log('Gallileo: GPS data is not valid!');
+                console.log('galileo: GPS data is not valid!');
             }
 
             var csq = 0;
@@ -257,12 +258,12 @@ var PluginGallileo = function (socket_data, opts) {
 
         if (checksum_received) {
             parse(checksum_received);
-            options.onComplete(params);
+            this.options.onComplete(params);
         } else {
-            options.onEchoNeeded('1', 'ascii');
-            console.log('Gallileo: wrong checksum');
+            this.options.onEchoNeeded('1', 'ascii');
+            console.log('galileo: wrong checksum');
         }
     };
 };
 
-module.exports = PluginGallileo;
+module.exports = Plugin;

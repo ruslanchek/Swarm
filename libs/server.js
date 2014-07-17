@@ -65,7 +65,7 @@ var Server = function () {
                         return false;
                     }
 
-                    _this.onDataRecieved(data, socket);
+                    _this.onDataRecieved(data.toString('hex'), data, socket);
                 } else {
                     console.log('Data is bigger than ' + options.max_data_length + ' bytes');
                 }
