@@ -2,6 +2,10 @@ var _ = require('lodash'),
 	geodata = new require('./geodata.js')();
 
 var DataProcessor = function(mongoose){
+    var format = {
+        
+    };
+
     this.process = function(data){
         var Point = mongoose.model('Point', { data: Object });
 
