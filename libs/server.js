@@ -18,7 +18,7 @@ var Server = function () {
         last_data = null;
 
     this.onServerStartListening = function () {
-
+        
     };
 
     this.onEndConnection = function () {
