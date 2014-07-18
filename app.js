@@ -2,9 +2,12 @@ process.env.TZ = 'Europe/Moscow';
 
 var mongoose = require('./libs/mongoose.js'),
     server = require('./libs/server.js'),
-    protocol = require('./libs/protocol.js');
+    protocol = require('./libs/protocol.js'),
+    data_processor = require('./libs/data-processor.js');
 
 server.onDataRecieved = function(data, bytes, socket){
+    var dp = new data_processor(mongoose);
+
     var proto = new protocol(data, bytes, {
         onProtocolUndefined: function(){
             socket.destroy();
@@ -25,16 +28,7 @@ server.onDataRecieved = function(data, bytes, socket){
             },
 
             onComplete: function(data){
-                console.log(data);
-
-                var Point = mongoose.model('Point', { data: Object });
-
-                var kitty = new Point({data: data});
-
-                kitty.save(function (err) {
-                    if (err) // ...
-                        console.log('meow');
-                });
+                dp.process(data);
             }
         });
 
