@@ -3,7 +3,8 @@ var _ = require('lodash'),
     checksum = require('../libs/checksum.js');
 
 var Plugin = function (socket_data, options) {
-    var params = {},
+    var _this = this,
+        params = {},
         tags_params = {};
 
     this.options = {
@@ -77,7 +78,8 @@ var Plugin = function (socket_data, options) {
 
         var out = new Buffer(a, 'ascii');
 
-        this.options.onEchoNeeded(out, 'ascii');
+        // Штем трекеру: все ок!
+        _this.options.onEchoNeeded(out, 'ascii');
 
         parseTags();
     };
@@ -228,18 +230,21 @@ var Plugin = function (socket_data, options) {
                 csq = Math.ceil(data.dev_status.gsm_signal_level * 7.75);
             }
 
-            // TODO: перенести преобразование status -> CSQ в Meitrack, а тут сделать простой процент - 0-100% с шагом в 25%;
-            params.gps_data   = data.gps_data;
-            params.hdop       = data.hdop;
-            params.csq        = csq;
-            params.altitude   = data.altitude;
-            params.journey    = data.journey;
+            params.telemetry = {
+                gps: data.gps_data,
+				altitude: data.altitude,
+				journey: data.journey,
+				acceleration: data.acceleration
+            };
 
             params.device_params = {
                 dev_temp: data.dev_temp,
                 power_inp: data.power_inp,
                 power_bat: data.power_bat,
-                acceleration: data.acceleration,
+				hdop: data.hdop,
+				csq: csq,
+				dev_status: data.dev_status,
+				gsm_signal_level: data.dev_status.gsm_signal_level
                 inputs: [
                     (data.input1 != null) ? utils.hexDec(data.input1) : false,
                     (data.input2 != null) ? utils.hexDec(data.input2) : false,
