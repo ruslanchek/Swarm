@@ -244,7 +244,6 @@ var Plugin = function (socket_data, options) {
 				hdop: data.hdop,
 				csq: csq,
 				dev_status: data.dev_status,
-				gsm_signal_level: data.dev_status.gsm_signal_level
                 inputs: [
                     (data.input1 != null) ? utils.hexDec(data.input1) : false,
                     (data.input2 != null) ? utils.hexDec(data.input2) : false,

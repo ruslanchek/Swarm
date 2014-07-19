@@ -7,7 +7,7 @@ var mongoose = require('./libs/mongoose.js'),
 
 server.onDataRecieved = function(data, bytes, socket){
     var dp = new data_processor(mongoose);
-
+    
     var proto = new protocol(data, bytes, {
         onProtocolUndefined: function(){
             socket.destroy();
