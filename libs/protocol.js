@@ -17,17 +17,17 @@ var Protocol = function(data, bytes, options){
 
     this.detect = function(){
         if (data.substr(0, 4) == '2424') {
-            console.log('Protocol: start processing Meiligao');
+            console.log('Protocol: start Meiligao');
             return 'meiligao';
 
         //Galileo
         } else if (data.substr(0, 2) == '01') {
-            console.log({message: 'Start processing Galileo Protocol'});
+            console.log('Protocol: start Galileo');
             return 'galileo';
 
         //Iphone [$iphone]
         } else if (data.substr(0, 14) == '246970686f6e65') {
-            console.log({message: 'Start processing iPhone Protocol'});
+            console.log('Protocol: start iPhone');
             return 'iphone';
 
         //Bye

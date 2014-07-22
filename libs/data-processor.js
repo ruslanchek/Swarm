@@ -1,5 +1,5 @@
 var _ = require('lodash'),
-	geodata = new require('./geodata.js')();
+	geodata = require('./geodata.js');
 
 var DataProcessor = function(mongoose){
     /*
@@ -41,4 +41,4 @@ var DataProcessor = function(mongoose){
     };
 };
 
-module.exports = new DataProcessor();
+module.exports = DataProcessor;
