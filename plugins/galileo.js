@@ -219,19 +219,9 @@ var Plugin = function (socket_data, options) {
                 console.log('galileo: GPS data is not valid!');
             }
 
-            var csq = 0;
-
-            // Приводим статус GSM в CSQ-фактор
-            // -77 = good
-            // -113 = poor
-            if (data.dev_status && data.dev_status.gsm_signal_level) {
-                csq = Math.ceil(data.dev_status.gsm_signal_level * 7.75);
-            }
-
             // TODO: перенести преобразование status -> CSQ в Meitrack, а тут сделать простой процент - 0-100% с шагом в 25%;
             params.gps_data   = data.gps_data;
             params.hdop       = data.hdop;
-            params.csq        = csq;
             params.altitude   = data.altitude;
             params.journey    = data.journey;
 
@@ -253,12 +243,38 @@ var Plugin = function (socket_data, options) {
         }
     };
 
+    this.paramsOutputFormat = function () {
+        return {
+            id          : params.dev_id,
+            imei        : params.imei,
+            inp         : params.device_params.inputs,
+
+            gsm         : params.device_params.dev_status.gsm_signal_level,
+            hdop        : params.device_params.hdop,
+
+            bat         : params.device_params.power_bat,
+            pow         : params.device_params.power_inp,
+
+            tmp         : params.device_params.dev_temp,
+
+            alt         : params.telemetry.altitude,
+            hdg         : params.telemetry.gps.heading,
+            spd         : params.telemetry.gps.speed,
+
+            date        : params.telemetry.datetime,
+            lon         : params.telemetry.lon,
+            lat         : params.telemetry.lat,
+
+            sat         : params.telemetry.sat_count
+        };
+    };
+
     this.process = function () {
         var checksum_received = processChecksum();
 
         if (checksum_received) {
             parse(checksum_received);
-            this.options.onComplete(params);
+            this.options.onComplete(this.paramsOutputFormat());
         } else {
             this.options.onEchoNeeded('1', 'ascii');
             console.log('galileo: wrong checksum');
