@@ -1,7 +1,8 @@
 var _ = require('lodash'),
-	geodata = require('./geodata.js');
+	geo = require('./geodata.js'),
+    models = require('./models.js');
 
-var DataProcessor = function(mongoose){
+var DataProcessor = function(){
 
     /*
     var format = {
@@ -30,9 +31,9 @@ var DataProcessor = function(mongoose){
     */
 
     this.process = function(data){
-        var Point = mongoose.model('Point', { data: Object });
-
-        var kitty = new Point({data: data});
+        var kitty = new models.Point({
+            data: data
+        });
 
         kitty.save(function (err) {
             if (err) {
@@ -42,4 +43,4 @@ var DataProcessor = function(mongoose){
     };
 };
 
-module.exports = DataProcessor;
+module.exports = new DataProcessor();
