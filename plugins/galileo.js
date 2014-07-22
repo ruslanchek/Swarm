@@ -70,18 +70,6 @@ var Plugin = function (socket_data, options) {
         params.tags_length = tags_length;
         params.unsended_flag = unsended_flag;
         params.tags = socket_data.substring(6, socket_data.length - 4);
-
-        //Создаем буфер ответа об успешном приеме пакета
-        var a = ['0x02'];
-
-        a = a.concat(utils.hexStringToBytesArray(utils.reverseBytes(checksum_received)));
-
-        var out = new Buffer(a, 'ascii');
-
-        // Шлем трекеру: все ок!
-        _this.options.onEchoNeeded(out, 'ascii');
-
-        parseTags();
     };
 
     var parseTags = function(){
@@ -212,34 +200,20 @@ var Plugin = function (socket_data, options) {
             };
         }
 
-        prepareData(data);
+        return data;
     };
 
     var prepareData = function(data){
         if (data.gps_data) {
             if ( data.gps_data.sat_status == 0 || ( parseInt(data.gps_data.lat) == 0 && parseInt(data.gps_data.lon) == 0 ) || data.hdop <= 0 ) {
-                console.log('galileo: GPS data is not valid!');
-            }
-
-            // TODO: перенести преобразование status -> CSQ в Meitrack, а тут сделать простой процент - 0-100% с шагом в 25%;
-            params.gps_data   = data.gps_data;
-            params.hdop       = data.hdop;
-            params.altitude   = data.altitude;
-            params.journey    = data.journey;
-            var csq = 0;
-
-            // Приводим статус GSM в CSQ-фактор
-            // -77 = good
-            // -113 = poor
-            if (data.dev_status && data.dev_status.gsm_signal_level) {
-                csq = Math.ceil(data.dev_status.gsm_signal_level * 7.75);
+                return false;
             }
 
             params.telemetry = {
                 gps: data.gps_data,
-				altitude: data.altitude,
-				journey: data.journey,
-				acceleration: data.acceleration
+                altitude: data.altitude,
+                journey: data.journey,
+                acceleration: data.acceleration
             };
 
             params.device_params = {
@@ -247,7 +221,6 @@ var Plugin = function (socket_data, options) {
                 power_inp: data.power_inp,
                 power_bat: data.power_bat,
 				hdop: data.hdop,
-				csq: csq,
 				dev_status: data.dev_status,
                 inputs: [
                     (data.input1 != null) ? utils.hexDec(data.input1) : false,
@@ -259,6 +232,8 @@ var Plugin = function (socket_data, options) {
 
             params.imei = data.imei;
             params.dev_id = data.dev_id;
+
+            return params;
         }
     };
 
@@ -293,7 +268,22 @@ var Plugin = function (socket_data, options) {
 
         if (checksum_received) {
             parse(checksum_received);
-            this.options.onComplete(this.paramsOutputFormat());
+
+            var data = prepareData(parseTags());
+
+            if(data){
+                this.options.onComplete(this.paramsOutputFormat());
+
+                var a = ['0x02'];
+                a = a.concat(utils.hexStringToBytesArray(utils.reverseBytes(checksum_received)));
+                var out = new Buffer(a, 'ascii');
+
+                this.options.onEchoNeeded(out, 'ascii');
+            }else{
+                this.options.onEchoNeeded('1', 'ascii');
+                console.log('galileo: GPS data is not valid!');
+            }
+
         } else {
             this.options.onEchoNeeded('1', 'ascii');
             console.log('galileo: wrong checksum');

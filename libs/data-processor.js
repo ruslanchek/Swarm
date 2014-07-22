@@ -2,6 +2,7 @@ var _ = require('lodash'),
 	geodata = require('./geodata.js');
 
 var DataProcessor = function(mongoose){
+
     /*
     var format = {
         id          : params.dev_id,
