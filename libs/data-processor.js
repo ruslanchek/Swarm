@@ -31,11 +31,9 @@ var DataProcessor = function(){
     */
 
     this.process = function(data){
-        var kitty = new models.Point({
-            data: data
-        });
+        var point = new models.Point(data);
 
-        kitty.save(function (err) {
+        point.save(function (err) {
             if (err) {
                 console.log('Data processor: model error', err);
             }
