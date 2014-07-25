@@ -24,8 +24,6 @@ var Models = function(){
 
         sat         : Number
     });
-
-    this.a = 1;
 };
 
 module.exports = new Models();
