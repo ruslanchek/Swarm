@@ -3,34 +3,36 @@ var _ = require('lodash'),
     models = require('./models.js');
 
 var DataProcessor = function(){
+    this.process = function(raw){
+        var data = {
+            id          : raw.id,
+            imei        : raw.imei,
+            inp         : raw.inp,
 
-    /*
-    var format = {
-        id          : params.dev_id,
-        imei        : params.imei,
-        inp         : params.device_params.inputs,
+            gsm         : raw.gsm,
+            hdop        : raw.hdop,
 
-        gsm         : params.device_params.dev_status.gsm_signal_level,
-        hdop        : params.device_params.hdop,
+            bat         : raw.bat,
+            pow         : raw.pow,
 
-        bat         : params.device_params.power_bat,
-        pow         : params.device_params.power_inp,
+            tmp         : raw.tmp,
 
-        tmp         : params.device_params.dev_temp,
+            alt         : raw.alt,
+            hdg         : raw.hdg,
+            spd         : raw.spd,
 
-        alt         : params.telemetry.altitude,
-        hdg         : params.telemetry.gps.heading,
-        spd         : params.telemetry.gps.speed,
+            date        : raw.date,
+            sat         : raw.sat,
 
-        date        : params.telemetry.datetime,
-        lon         : params.telemetry.lon,
-        lat         : params.telemetry.lat,
+            loc         : {
+                type: 'Point',
+                coordinates: [
+                    raw.lat,
+                    raw.lon
+                ]
+            }
+        };
 
-        sat         : params.telemetry.sat_count
-    };
-    */
-
-    this.process = function(data){
         var point = new models.Point(data);
 
         point.save(function (err) {
