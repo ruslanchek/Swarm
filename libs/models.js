@@ -29,7 +29,7 @@ var Models = function(){
         },
 
         device: {
-            type: Schema.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'Device',
             index: true
         }
@@ -43,7 +43,7 @@ var Models = function(){
     var GeoZoneSchema = new mongoose.Schema({
         name: String,
         user: {
-            type: Schema.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'User',
             index: true
         },
@@ -67,7 +67,7 @@ var Models = function(){
         id: String,
         imei: String,
         user: {
-            type: Schema.ObjectId,
+            type: mongoose.Schema.ObjectId,
             ref: 'User',
             index: true
         },

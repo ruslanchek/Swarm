@@ -3,7 +3,7 @@ var _ = require('lodash'),
     models = require('./models.js');
 
 var DataProcessor = function(){
-
+    
 };
 
 module.exports = new DataProcessor();
