@@ -9,7 +9,6 @@ var GeoZones = function (user_id) {
 
     this.checkPoint = function(coords, done){
         models.GeoZone.find({
-            user: user_id,
             loc: {
                 type: 'Point',
                 coordinates: coords
