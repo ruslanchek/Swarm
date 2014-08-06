@@ -49,9 +49,14 @@ var Point = function (user_id) {
         });
     };
 
-    this.getLatestPoint = function(device_id){
+    this.getLatestPoint = function(device_id, done){
         models.Point.findOne({}, function(err, data){
-            console.log('Data processor: model error', err);
+            if(err){
+                return done(false);
+                console.log('Model Point error: model error', err);
+            }
+
+            return done(data);
         });
     };
 };
