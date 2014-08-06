@@ -6,7 +6,7 @@ var models = require('./models.js');
  */
 var GeoZone = function () {
     this.checkPoint = function(coords, user_id, done){
-        models.GeoZone.find({
+        models.GeoZone.findOne({
             active: true,
             loc: {
                 $geoIntersects: {
@@ -16,7 +16,7 @@ var GeoZone = function () {
                     }
                 }
             }
-        }, { _id: 1, name: 1 }, function(err, data){
+        }, function(err, data){
             if(err){
                 console.log('Model GeoZones error: model error', err);
                 return done(false);

@@ -87,7 +87,7 @@ var Models = function(){
             ref: 'User',
             index: true
         },
-        current_geozone: String
+        geozone: String
     }, {
         collection: "devices"
     });
