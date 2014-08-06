@@ -41,16 +41,18 @@ var Point = function (user_id) {
 
         point.save(function (err) {
             if (err) {
-                console.log('Data processor: model error', err);
+                console.log('Model Point error: model error', err);
                 return done(false);
-            }else{
-                done(true);
             }
+
+            return done(true);
         });
     };
 
-    this.getLatestPoint = function(car_id){
-
+    this.getLatestPoint = function(device_id){
+        models.Point.findOne({}, function(err, data){
+            console.log('Data processor: model error', err);
+        });
     };
 };
 

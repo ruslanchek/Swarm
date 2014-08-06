@@ -4,7 +4,7 @@ var models = require('./models.js');
  *
  * @constructor
  */
-var GeoZones = function () {
+var GeoZone = function () {
     this.checkPoint = function(coords, done){
         models.GeoZone.find({
             active: true,
@@ -18,6 +18,7 @@ var GeoZones = function () {
             }
         }, { _id: 1, name: 1 }, function(err, data){
             if(err){
+                console.log('Model GeoZones error: model error', err);
                 return done(false);
             }else{
                 return done(data);
@@ -26,4 +27,4 @@ var GeoZones = function () {
     };
 };
 
-module.exports = new GeoZones();
+module.exports = new GeoZone();
