@@ -42,6 +42,11 @@ var Models = function(){
 
     var GeoZoneSchema = new mongoose.Schema({
         name: String,
+        active: {
+            type: Boolean,
+            index: true,
+            default: false
+        },
         user: {
             type: mongoose.Schema.ObjectId,
             ref: 'User',
@@ -62,7 +67,7 @@ var Models = function(){
     this.GeoZone = mongoose.model('GeoZone', GeoZoneSchema);
 
 
-    var Device = new mongoose.Schema({
+    var DeviceSchema = new mongoose.Schema({
         name: String,
         id: String,
         imei: String,
@@ -76,16 +81,16 @@ var Models = function(){
         collection: "devices"
     });
 
-    this.Device = mongoose.model('Device', GeoZoneSchema);
+    this.Device = mongoose.model('Device', DeviceSchema);
 
 
-    var User = new mongoose.Schema({
+    var UserSchema = new mongoose.Schema({
         name: String
     }, {
         collection: "users"
     });
 
-    this.User = mongoose.model('User', GeoZoneSchema);
+    this.User = mongoose.model('User', UserSchema);
 };
 
 module.exports = new Models();

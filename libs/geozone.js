@@ -7,6 +7,7 @@ var models = require('./models.js');
 var GeoZones = function () {
     this.checkPoint = function(coords, done){
         models.GeoZone.find({
+            active: true,
             loc: {
                 $geoIntersects: {
                     $geometry: {
@@ -15,7 +16,7 @@ var GeoZones = function () {
                     }
                 }
             }
-        }, function(err, data){
+        }, { _id: 1, name: 1 }, function(err, data){
             if(err){
                 return done(false);
             }else{

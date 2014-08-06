@@ -4,11 +4,9 @@ var models = require('./models.js');
  *
  * @constructor
  */
-var Device = function (user_id) {
-    var _this = this;
-
+var Device = function () {
     this.getByIdAndIMEI = function(id, imei, done){
-        models.user.find({id: id, imei: imei}, function(err, data){
+        models.Device.findOne({id: id, imei: imei}, function(err, data){
             if(err){
                 return done(false);
             }
@@ -18,4 +16,4 @@ var Device = function (user_id) {
     };
 };
 
-module.exports = Device;
+module.exports = new Device();

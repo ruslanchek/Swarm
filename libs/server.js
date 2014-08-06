@@ -50,7 +50,7 @@ var Server = function () {
                 },
 
                 onComplete: function(data){
-                    dp.process(data);
+                    dp.process(data, socket);
                 }
             });
 
