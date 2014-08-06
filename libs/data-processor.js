@@ -2,6 +2,7 @@ var _ = require('lodash'),
 	geo = require('./geodata.js'),
     geozone = require('./geozone.js'),
     device = require('./device.js'),
+    point = require('./point.js'),
     user = require('./user.js');
 
 var DataProcessor = function(){
@@ -12,9 +13,12 @@ var DataProcessor = function(){
             if(device_data){
                 user.getById(device_data.user, function(user_data){
                     if(user_data){
-                        done({
-                            user: user_data,
-                            device: device_data
+                        point.getLatestPoint(device_data, function(latest_point_data){
+                            done({
+                                latest_point_data: latest_point_data,
+                                user: user_data,
+                                device: device_data
+                            });
                         });
                     }else{
                         console.log('Data processor: no user data');

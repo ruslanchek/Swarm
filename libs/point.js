@@ -7,7 +7,7 @@ var models = require('./models.js');
 var Point = function (user_id) {
     var _this = this;
 
-    this.addPoint = function(car_id, data, done){
+    this.addPoint = function(device_id, data, done){
         var data = {
             id          : data.id,
             imei        : data.imei,
@@ -34,7 +34,9 @@ var Point = function (user_id) {
                     data.lat,
                     data.lon
                 ]
-            }
+            },
+
+            device: device_id
         };
 
         var point = new models.Point(data);
@@ -49,8 +51,8 @@ var Point = function (user_id) {
         });
     };
 
-    this.getLatestPoint = function(device_id, done){
-        models.Point.findOne({}, function(err, data){
+    this.getLatestPoint = function(device_data, done){
+        models.Point.findOne({device: device_data}, function(err, data){
             if(err){
                 return done(false);
                 console.log('Model Point error: model error', err);
