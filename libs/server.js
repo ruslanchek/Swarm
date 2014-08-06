@@ -50,7 +50,9 @@ var Server = function () {
                 },
 
                 onComplete: function(data){
-                    dp.process(data, socket);
+                    dp.process(data, socket, function(){
+                        galileo.sendSuccesResponse();
+                    });
                 }
             });
 

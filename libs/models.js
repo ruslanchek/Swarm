@@ -32,6 +32,12 @@ var Models = function(){
             type: mongoose.Schema.ObjectId,
             ref: 'Device',
             index: true
+        },
+
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            index: false
         }
     }, {
         collection: "points"
@@ -46,6 +52,11 @@ var Models = function(){
             type: Boolean,
             index: true,
             default: false
+        },
+        geozone: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'GeoZone',
+            index: false
         },
         user: {
             type: mongoose.Schema.ObjectId,

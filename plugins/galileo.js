@@ -51,7 +51,7 @@ var Plugin = function (socket_data, options) {
         }
     };
 
-    var parse = function(checksum_received){
+    var parse = function(){
         //Берем два байта длины пакета, разворачиваем (т.к. это little-endian)
         var tags_length = utils.reverseBytes(socket_data.substr(2, 4));
 
@@ -311,22 +311,24 @@ var Plugin = function (socket_data, options) {
         };
     };
 
-    this.process = function () {
-        var checksum_received = processChecksum();
+    this.sendSuccesResponse = function(){
+        var a = ['0x02'];
+        a = a.concat(utils.hexStringToBytesArray(utils.reverseBytes(this.checksum_received)));
+        var out = new Buffer(a, 'ascii');
 
-        if (checksum_received) {
-            parse(checksum_received);
+        this.options.onEchoNeeded(out, 'ascii');
+    };
+
+    this.process = function () {
+        this.checksum_received = processChecksum();
+
+        if (this.checksum_received) {
+            parse();
 
             var data = prepareData(parseTags());
 
             if(data){
                 this.options.onComplete(this.paramsOutputFormat());
-
-                var a = ['0x02'];
-                a = a.concat(utils.hexStringToBytesArray(utils.reverseBytes(checksum_received)));
-                var out = new Buffer(a, 'ascii');
-
-                this.options.onEchoNeeded(out, 'ascii');
             }else{
                 this.options.onEchoNeeded('1', 'ascii');
                 console.log('galileo: GPS data is not valid!');

@@ -5,9 +5,7 @@ var models = require('./models.js');
  * @constructor
  */
 var Point = function (user_id) {
-    var _this = this;
-
-    this.addPoint = function(device_id, data, done){
+    this.addPoint = function(data, device_id, user_id, done){
         var data = {
             id          : data.id,
             imei        : data.imei,
@@ -36,7 +34,9 @@ var Point = function (user_id) {
                 ]
             },
 
-            device: device_id
+            device: device_id,
+
+            user: user_id
         };
 
         var point = new models.Point(data);
@@ -51,8 +51,8 @@ var Point = function (user_id) {
         });
     };
 
-    this.getLatestPoint = function(device_data, done){
-        models.Point.findOne({device: device_data}, function(err, data){
+    this.getLatestPoint = function(device_data, user_id, done){
+        models.Point.findOne({ device: device_data._id, user: user_id }, function(err, data){
             if(err){
                 return done(false);
                 console.log('Model Point error: model error', err);
@@ -63,4 +63,4 @@ var Point = function (user_id) {
     };
 };
 
-module.exports = Point;
+module.exports = new Point();
