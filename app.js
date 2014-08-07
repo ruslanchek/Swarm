@@ -26,5 +26,4 @@ gz.checkPoint([
 });
  */
 
-
 var server = new Server();

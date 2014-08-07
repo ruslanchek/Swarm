@@ -64,8 +64,22 @@ var Models = function(){
             index: true
         },
         loc: {
-            type        : { type: String },
-            coordinates : { type: Array }
+            type        : {
+                type: String
+            },
+            coordinates : {
+                type: Array
+            }
+        },
+        notify: {
+            sms: {
+                type: Boolean,
+                default: false
+            },
+            mail: {
+                type: Boolean,
+                default: false
+            }
         }
     }, {
         collection: "geozones"
@@ -96,7 +110,19 @@ var Models = function(){
 
 
     var UserSchema = new mongoose.Schema({
-        name: String
+        name: String,
+        phone: {
+            active: {
+                type: Boolean,
+                default: false
+            },
+            number: {
+                type: Number
+            },
+            code: {
+                type: String
+            }
+        }
     }, {
         collection: "users"
     });
