@@ -1,19 +1,19 @@
 var _ = require('lodash'),
-    geo = require('./geodata.js'),
+    geodata = require('./geodata.js'),
+
     geozone = require('./geozone.js'),
     device = require('./device.js'),
     point = require('./point.js'),
-    user = require('./user.js');
+    user = require('./user.js'),
+
+    Notify = require('./notify.js');    
 
 var DataProcessor = function () {
     var _this = this;
 
     this.socket = null;
-
-    //Algo => Data => Get device ID & IMEI => Get device by ID & IMEI => Get user by dev ID => Do Point filter Algo => Save point data => Get device GZ => Process GZ Algo => Save GZ data => Send confirm To User
-    this.onSuccess = function () {
-
-    };
+    this.notify = null;
+    this.onSuccess = function () {};
 
     function collectData(point_data, done) {
         device.getByIdAndIMEI(point_data.id, point_data.imei, function (device_data) {
@@ -102,6 +102,8 @@ var DataProcessor = function () {
 
         collectData(point_data, function (data) {
             if (data) {
+                this.notify = new Notify(data.user_data);
+
                 if (pointsFilter(data.point_data, data.latest_point_data)) {
                     savePoint(data.point_data, data.device_data._id, data.user_data._id);
                     processGeozones(data.point_data, data.device_data, data.user_data._id);
