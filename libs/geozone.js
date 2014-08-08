@@ -61,7 +61,7 @@ var GeoZone = function () {
         this.getById(device_data.geozone, user_data._id, function(latest_geozone){
             _this.checkPoint([point_data.lat, point_data.lon], user_data._id, function(new_geozone){
                 if(latest_geozone && new_geozone){
-                    if(latest_geozone._id.toString() != new_geozone._id.toString()){ // Enter new & Exit old
+                    if(latest_geozone._id.toString() != new_geozone._id.toString()){
                         exit(latest_geozone, function(){
                             enter(new_geozone);
                         });
@@ -69,12 +69,12 @@ var GeoZone = function () {
                     }
                 }
 
-                if(!latest_geozone && new_geozone){ // Enter new
+                if(!latest_geozone && new_geozone){
                     enter(new_geozone);
                     updateGeozone(new_geozone);
                 }
 
-                if(latest_geozone && !new_geozone){ // Exit old
+                if(latest_geozone && !new_geozone){
                     exit(latest_geozone);
                     updateGeozone(false);
                 }
