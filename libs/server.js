@@ -10,7 +10,7 @@ var net = require('net'),
 var Server = function () {
     var _this = this,
         options = {
-            port: 10000,
+            port: 10001,
             host: '127.0.0.1',
             max_data_length: 4096,
             socket_timeout: 30000

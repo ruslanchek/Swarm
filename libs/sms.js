@@ -15,10 +15,7 @@ var Sms = function () {
     };
 	
 	this.send = function(message, phones, done) {
-	    var recipients = '',
-	        date = new Date();
-
-	    message = message + ' (' + date + ')';
+	    var recipients = '';
 
 	    if (phones) {
 	        recipients = phones.join(',');

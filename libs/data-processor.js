@@ -6,7 +6,7 @@ var _ = require('lodash'),
     point = require('./point.js'),
     user = require('./user.js'),
 
-    Notify = require('./notify.js');    
+    Notify = require('./notify.js');
 
 var DataProcessor = function () {
     var _this = this;
@@ -55,62 +55,45 @@ var DataProcessor = function () {
         });
     }
 
-    function processGeozones(point_data, device_data, user_data) {
-        function exit(geozone_data, done){
-            _this.notify.send(device_data.name + ' exits geozone ' + geozone_data.name, user_data);
-            if(done){
-                done();
-            }
-        }
-
-        function enter(geozone_data, done){
-            _this.notify.send(device_data.name + ' enters geozone ' + geozone_data.name, user_data);
-            if(done){
-                done();
-            }
-        }
-
-        function updateDeviceGeozone(new_geozone_id){
-            device.update(device_data._id, user_data._id, { geozone: new_geozone_id }, function(data){
-                console.log('Data processor: device geozone updatated');
-            });
-        }
-
-        geozone.getById(device_data.geozone, user_data._id, function(latest_geozone){
-            geozone.checkPoint([point_data.lat, point_data.lon], user_data._id, function(new_geozone){
-                if(latest_geozone && new_geozone){
-                    if(latest_geozone._id.toString() != new_geozone._id.toString()){ // Enter new & Exit old
-                        exit(latest_geozone, function(){
-                            enter(new_geozone);
-                        });
-                        updateDeviceGeozone(new_geozone._id);
-                    }
-                }
-
-                if(!latest_geozone && new_geozone){ // Enter new
-                    enter(new_geozone);
-                    updateDeviceGeozone(new_geozone._id);
-                }
-
-                if(latest_geozone && !new_geozone){ // Exit old
-                    exit(latest_geozone);
-                    updateDeviceGeozone(null);
-                }
-            });
-        });
-    }
-
     this.process = function (point_data, socket, onSuccess) {
         this.onSuccess = onSuccess;
         this.socket = socket;
 
         collectData(point_data, function (data) {
             if (data) {
-                _this.notify = new Notify(data.user_data);
+                _this.notify = new Notify(data.user_data, data.device_data);
 
                 if (pointsFilter(data.point_data, data.latest_point_data)) {
                     savePoint(data.point_data, data.device_data._id, data.user_data._id);
-                    processGeozones(data.point_data, data.device_data, data.user_data);
+					
+                    geozone.processGeozones(
+						data.point_data, 
+						data.device_data, 
+						data.user_data, 
+						function(geozone_data){
+							if(geozone_data.notify && geozone_data.notify.sms === true || geozone_data.notify.email === true){
+                    			_this.notify.send(
+									data.device_data.name + ' enters geozone ' + geozone_data.name,
+									data.device_data.name + ' enters geozone ' + geozone_data.name,
+									'geo'
+								);
+							}
+	                    }, 
+						function(geozone_data){
+							if(geozone_data.notify && geozone_data.notify.sms === true || geozone_data.notify.email === true){
+	                    		_this.notify.send(
+									data.device_data.name + ' exits geozone ' + geozone_data.name,
+									data.device_data.name + ' exits geozone ' + geozone_data.name,
+									'geo'
+								);
+							}
+	                    },
+						function(geozone_data){
+				            device.update(data.device_data._id, data.user_data._id, { geozone: geozone_data._id }, function(data){
+				                console.log('Data processor: device geozone updatated');
+				            });
+						}
+					);
                 } else {
                     console.log('Data processor: point filtered');
                     socket.destroy();

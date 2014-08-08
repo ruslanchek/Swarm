@@ -76,7 +76,7 @@ var Models = function(){
                 type: Boolean,
                 default: false
             },
-            mail: {
+            email: {
                 type: Boolean,
                 default: false
             }
@@ -101,7 +101,17 @@ var Models = function(){
             ref: 'User',
             index: true
         },
-        geozone: String
+        geozone: String,
+        notify: {
+            sms: {
+                type: Boolean,
+                default: false
+            },
+            email: {
+                type: Boolean,
+                default: false
+            }
+        }
     }, {
         collection: "devices"
     });
@@ -111,6 +121,17 @@ var Models = function(){
 
     var UserSchema = new mongoose.Schema({
         name: String,
+		email: String,
+        notify: {
+            sms: {
+                type: Boolean,
+                default: false
+            },
+            email: {
+                type: Boolean,
+                default: false
+            }
+        },
         phone: {
             active: {
                 type: Boolean,
@@ -126,6 +147,11 @@ var Models = function(){
     }, {
         collection: "users"
     });
+	
+	UserSchema.path('email').validate(function (email) {
+	   var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+	   return emailRegex.test(email.text);
+	}, 'The e-mail field cannot be empty.')
 
     this.User = mongoose.model('User', UserSchema);
 };
