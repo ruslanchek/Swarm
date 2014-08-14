@@ -40,15 +40,15 @@ var GeoZone = function () {
     };
 	
 	this.processGeozones = function(point_data, device_data, user_data, onEnterGeozone, onExitGeozone, onUpdateGeozone) {
-        function exit(geozone_data, done){
-            if(onEnterGeozone){
-                onEnterGeozone(geozone_data);
+        function exit(geozone_data){
+            if(onExitGeozone){
+                onExitGeozone(geozone_data);
             }
         }
 
-        function enter(geozone_data, done){
-            if(onExitGeozone){
-                onExitGeozone(geozone_data);
+        function enter(geozone_data){
+            if(onEnterGeozone){
+                onEnterGeozone(geozone_data);
             }
         }
 
