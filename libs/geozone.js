@@ -29,6 +29,10 @@ var GeoZone = function () {
     };
 
     this.getById = function(id, user_id, done){
+		if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+			return done(false);
+		}
+		
         models.GeoZone.findOne({ _id: id }, function(err, data){
             if(err){
                 console.log('Model GeoZones error: model error', err);
