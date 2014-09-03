@@ -29,6 +29,7 @@ var GeoZone = function () {
     };
 
     this.getById = function(id, user_id, done){
+		// TODO: Make it on the Mongoose side
 		if (!id.match(/^[0-9a-fA-F]{24}$/)) {
 			return done(false);
 		}

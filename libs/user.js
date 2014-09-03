@@ -6,6 +6,7 @@ var models = require('./models.js');
  */
 var User = function () {
     this.getById = function(id, done){
+		// TODO: Make it on the Mongoose side
 		if (!id.match(/^[0-9a-fA-F]{24}$/)) {
 			return done(false);
 		}

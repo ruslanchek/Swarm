@@ -1,0 +1,343 @@
+<link rel="stylesheet" href="/cc-form/jquery.kladr.min.css">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="/cc-form/jquery.bd-pick.js"></script>
+<script src="/cc-form/jquery.kladr.min.js" type="text/javascript"></script>
+<script src="/cc-form/kladr.js"></script>
+<script src="/cc-form/cc-form.js"></script>
+<p>
+    Банковская карта ООО КБ «Лайтбанк» &mdash; это карта, которая легко позволяет
+    оплачивать покупки и получать наличные в любой валюте в банкоматах по всему миру.
+    С ее помощью Вы можете бронировать номера в гостиницах, отелях, приобретать авиа- и железнодорожные
+    билеты и совершать покупки в сети Интернет. Кроме того, мы предлагаем воспользоваться бесплатным
+    Интернет-банком, где Вы можете контролировать движение средств по всем открытым в Банке счетам и
+    оплачивать услуги мобильной связи, телевидения, коммунальных услуг и др.
+</p>
+
+<p>
+    Банковские карты ООО КБ «Лайтбанк» &mdash; это безопасный способ безналичных расчетов и
+    индивидуальный подход к каждому клиенту.
+</p>
+
+<p>
+    Мы предоставляем широкий выбор карточных продуктов и взаимосвязанных услуг:<br>
+    &mdash; никаких дополнительных скрытых комиссий;<br>
+    &mdash; прозрачность расчетов;<br>
+    &mdash; услуги удаленного управления карточным счетом.
+</p>
+<br>
+
+
+<div id="residential-block">
+    <label class="alert-label">
+        <input type="checkbox" id="i-am-residential"> У меня Гражданство РФ *
+    </label>
+    <br>
+    <em>* Оформление карты через сайт возможно только для граждан РФ</em>
+</div>
+
+<div class="cc-form">
+<div id="form-step-1" style="display: none">
+<form id="cc-form" action="" class="form-send">
+<h2>Тип карты</h2>
+
+
+<div class="cardtypes">
+    <div class="error" data-name="card_type"></div>
+    <label>
+        <img src="/cc-form/icons/visa_platinum_32.png">
+        <input type="radio" name="card_type" value="VISA Platinum">
+        VISA Platinum
+    </label>
+    <label>
+        <img src="/cc-form/icons/visa_gold_32.png">
+        <input type="radio" name="card_type" value="VISA Gold">
+        VISA Gold
+    </label>
+    <label>
+        <img src="/cc-form/icons/visa_32.png">
+        <input type="radio" name="card_type" value="VISA Classic">
+        VISA Classic
+    </label>
+    <label>
+        <img src="/cc-form/icons/visa_electron_32.png">
+        <input type="radio" name="card_type" value="VISA Electron">
+        VISA Electron
+    </label>
+    <label>
+        <img src="/cc-form/icons/mastercard_platinum_32.png">
+        <input type="radio" name="card_type" value="MasterCard Platinum">
+        MasterCard Platinum
+    </label>
+    <label>
+        <img src="/cc-form/icons/mastercard_gold_32.png">
+        <input type="radio" name="card_type" value="MasterCard Gold">
+        MasterCard Gold
+    </label>
+    <label>
+        <img src="/cc-form/icons/mastercard_32.png">
+        <input type="radio" name="card_type" value="MasterCard Standard">
+        MasterCard Standard
+    </label>
+    <label>
+        <img src="/cc-form/icons/china_union_pay_32.png">
+        <input type="radio" name="card_type" value="Union Pay Platinum">
+        Union Pay Platinum
+    </label>
+    <label>
+        <img src="/cc-form/icons/china_union_pay_32.png">
+        <input type="radio" name="card_type" value="Union Pay Platinum">
+        Union Pay Gold
+    </label>
+    <label>
+        <img src="/cc-form/icons/china_union_pay_32.png">
+        <input type="radio" name="card_type" value="Union Pay Classic">
+        Union Pay Classic
+    </label>
+
+    <div class="clear"></div>
+</div>
+
+
+<hr/>
+
+<h2>Персональные данные</h2>
+
+<div class="field fldtext">
+    <div class="error" data-name="name_last"></div>
+    <label>
+        Фамилия
+    </label>
+    <input type="text" name="name_last" data-translit="true">
+
+</div>
+
+<div class="field fldtext">
+    <div class="error" data-name="name_first"></div>
+    <label>
+        Имя
+    </label>
+    <input type="text" name="name_first" data-translit="true">
+</div>
+
+<div class="field fldtext">
+    <div class="error" data-name="name_patronymic"></div>
+    <label>
+        Отчество
+    </label>
+    <input type="text" name="name_patronymic">
+
+</div>
+
+
+<div class="field fldoth">
+    <label>Пол</label>
+
+    <div class="fld-span">
+        <div class="error" data-name="gender"></div>
+        <label>
+            <input type="radio" name="gender" value="Мужской" checked="checked">
+            Мужской
+        </label>
+        <label>
+            <input type="radio" name="gender" value="Женский">
+            Женский
+        </label>
+    </div>
+</div>
+
+<div class="field fldoth">
+    <div class="error" data-name="birthdate"></div>
+    <label>Дата рождения</label>
+    <div class="birthday fld-span"></div>
+</div>
+
+<div class="field fldtext">
+    <div class="error" data-name="birth_place"></div>
+    <label>
+        Место рождения
+    </label>
+    <input type="text" name="birth_place">
+
+</div>
+
+
+<hr/>
+
+<h3>Документ, удостоверяющий личность</h3>
+
+<div class="field fldtext">
+    <div class="error" data-name="doc_num"></div>
+    <label>
+        Серия и номер
+    </label>
+    <input type="text" name="doc_num">
+
+</div>
+
+<div class="field fldtext">
+    <div class="error" data-name="doc_dept"></div>
+    <label>
+        Кем выдан
+    </label>
+        <input type="text" name="doc_dept">
+
+</div>
+
+<div class="field fldoth">
+    <div class="error" data-name="doc_date"></div>
+    <label>Дата выдачи</label>
+    <div class="doc-date fld-span"></div>
+</div>
+
+
+<hr/>
+
+<h3>Адрес регистрации</h3>
+
+<div class="error" data-name="address1"></div>
+<div class="field fldtext">
+    <label>
+        Город
+    </label>
+    <input id="city1" type="text">
+</div>
+
+<div class="field fldtext">
+    <label>
+        Улица
+    </label>
+    <input id="street1" type="text">
+</div>
+
+<div class="field fldtext">
+    <label>
+        Номер дома
+    </label>
+    <input id="building1" type="text">
+</div>
+
+<div class="field fldtext">
+    <label>
+        Корпус/строение
+    </label>
+    <input id="building_add1" type="text">
+</div>
+
+<input type="hidden" name="address1" id="address1">
+
+
+<hr/>
+
+<h3>Фактический адрес</h3>
+
+<div class="field">
+    <label>
+        <input id="copy_address_1_to_2" type="checkbox" />
+        Адрес фактического проживания совпадает с адресом регистрации
+    </label>
+</div>
+
+<div class="error" data-name="address2"></div>
+<div class="field fldtext">
+    <label>
+        Город
+    </label>
+    <input id="city2" type="text">
+</div>
+
+<div class="field fldtext">
+    <label>
+        Улица
+    </label>
+    <input id="street2" type="text">
+</div>
+
+<div class="field fldtext">
+    <label>
+        Номер дома
+    </label>
+    <input id="building2" type="text">
+</div>
+
+<div class="field fldtext">
+    <label>
+        Корпус/строение
+    </label>
+    <input id="building_add2" type="text">
+</div>
+
+<input type="hidden" name="address2" id="address2">
+
+<hr/>
+
+<div class="field">
+    <label>
+        <input type="checkbox" name="idpl">
+        Являетесь ли Вы ИПДЛ/родственником ИПДЛ?
+    </label>
+</div>
+
+
+<div class="field">
+    <label>
+        <input type="checkbox" name="benificy">
+        Отсутствие/наличие бенефициарного владельца
+    </label>
+</div>
+
+<hr/>
+
+<div class="field">
+    <div class="error" data-name="agree"></div>
+    <label style="margin-right: 0">
+        <input name="agree" type="checkbox"/>
+        Даю свое согласие на
+    </label>
+    <a href="#" class="rules-opener">обработку персональных данных</a>
+</div>
+
+<input type="submit" class="btn" value="Далее">
+
+<div id="form-1-result"></div>
+</form>
+</div>
+
+
+<div id="form-step-2" style="display: none">
+    <form action="" id="phone-form" class="form-send">
+        <div class="field fldtext">
+            <div class="error" data-name="phone"></div>
+            <label>
+                Ваш телефон
+            </label>
+            <input name="phone" type="text" placeholder="+7 926 123-45-67">
+        </div>
+
+        <hr/>
+
+        <input type="submit" class="btn" value="Далее">
+    </form>
+</div>
+
+<div id="form-step-3" style="display: none">
+    <form action="" id="code-form" class="form-send">
+        <div class="field fldtext">
+            <div class="error" data-name="code"></div>
+            <label>
+                Введите код
+            </label>
+            <input name="code" maxlength="4" type="text">
+        </div>
+
+        <hr/>
+
+        <input type="submit" class="btn" value="Отправить">
+    </form>
+</div>
+
+<div id="form-step-4" style="display: none">
+    <div class="form-send">
+        <p>Все окей!</p>
+    </div>
+</div>
+</div>
