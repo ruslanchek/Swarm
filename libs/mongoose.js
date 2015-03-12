@@ -9,10 +9,10 @@ var MongooseConnect = function () {
     var _this = this,
         options = {
             user: 'admin',
-            password: 'lordaeron',
-            server: 'kahana.mongohq.com',
-            port: '10032',
-            db: 'cartrek-swarm',
+            password: '',
+            server: '',
+            port: '',
+            db: '',
             connection_options: {
                 server: {
                     socketOptions: {
