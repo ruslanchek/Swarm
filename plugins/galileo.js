@@ -128,12 +128,6 @@ var Plugin = function (socket_data, options) {
 
         //Parse GPSD
         if (data.gps_data) {
-            //  1    0     0    0     0    0     0    0     0    0     0    0     0    0     0    0     0    0
-            //  0001 0000  0000 0000  0000 0000  0000 0000  0000 0000  0000 0000  0000 0000  0000 0000  0000 0000
-
-            //  0    6     38         41         51         03         04         53         3e         02
-            //  0000 0110  0011 1000  0100 0001  0101 0001  0000 0011  0000 0100  0101 0011  0011 1110  0000 0010
-
             var gpsd_bin = utils.hex2bin(data.gps_data),
                 gpsd_hex = data.gps_data,
                 gpsd_parsed = {};
@@ -238,54 +232,6 @@ var Plugin = function (socket_data, options) {
     };
 
     this.paramsOutputFormat = function () {
-        /*
-         {
-             tags_length: '41',
-             unsended_flag: '1',
-             tags: '0338363832303430303135373734353004020020b2e5bd50300a90425103b8533e02330000580634a5003508400033410000429f0f4313445da227164508004600e0500000510000520000530000707f809000000000c000000000c100000000c200000000c300000000c400c500c600c700c800c900ca00cb00d4c4f00000d500d60000d70000d80000d90000da0000db00000000dc00000000dd00000000de00000000df00000000',
-             telemetry: {
-                gps: {
-                    sat_count: '10',
-                    sat_status: 1,
-                    lat: 55.657104,
-                    lon: 37.639096,
-                    datetime: Tue Dec 04 2012 11:59:46 GMT+0400 (MSK),
-                    speed: 0,
-                    heading: 162.4
-                 },
-                altitude: 165,
-                journey: undefined,
-                acceleration: { x: 605, y: 488, z: 354 }
-             },
-            device_params: {
-                dev_temp: 19,
-                power_inp: 0,
-                power_bat: 3.999,
-                hdop: 0.8,
-                dev_status: {
-                    vibration_level_1: '0',
-                    slope_level: '0',
-                    unused: '0',
-                    sim_card: '0',
-                    geozone: '0',
-                    inner_battery_level: '0',
-                    gps_antenna: '0',
-                    inner_power_bus: '0',
-                    outer_power_input: '1',
-                    ignition: '1',
-                    vibration_level_2: '0',
-                    gis_system: '0',
-                    gsm_signal_level: '3',
-                    alarm_engaged: '0',
-                    alarm_status: '0'
-                },
-                inputs: [ false, false, false, false ] },
-                imei: '868204001577450',
-                dev_id: 2
-            }
-         */
-
-
         return {
             id          : params.dev_id,
             imei        : params.imei,
