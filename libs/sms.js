@@ -42,12 +42,12 @@ var Sms = function () {
                 }
 	        });
 
-            req.end();
+                req.end();
 	    } else {
-            console.log('Sms: no phones');
-	        if(done){
-                done(false);
-            }
+	        console.log('Sms: no phones');
+		if(done){
+	            done(false);
+	        }
 	    }
 	}
 };
