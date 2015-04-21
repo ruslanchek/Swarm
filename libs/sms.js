@@ -8,9 +8,9 @@ var Sms = function () {
     var options = {
         host			: 'littlesms.ru',
         port			: 443,
-	    user            : 'ruslanchek@gmail.com',
-	    api_key         : 'OaEwqp',
-	    sender          : 'Cartrek',
+	    user            : '',
+	    api_key         : '',
+	    sender          : '',
         method			: 'GET'
     };
 	
